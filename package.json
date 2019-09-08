@@ -5,11 +5,11 @@
   "license": "CC0-1.0",
   "scripts": {
     "build-server": "tslint --project . && tsc",
-    "watch-server": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node src/server/server.ts"
+    "watch-server": "cross-env NODE_ENV=development nodemon --watch src -e ts,tsx --exec ts-node src/server/server.ts"
   },
   "devDependencies": {
-    "@types/koa": "2.0.39",
-    "@types/koa-router": "7.0.23",
+    "@types/koa": "latest",
+    "@types/koa-router": "latest",
     "cross-env": "5.0.5",
     "nodemon": "1.19.2",
     "ts-node": "3.3.0",
@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@types/redis": "2.8.13",
+    "axios": "0.19.0",
     "koa": "2.8.1",
     "koa-router": "7.2.1",
     "redis": "2.8.0"

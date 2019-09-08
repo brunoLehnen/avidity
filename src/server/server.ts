@@ -6,6 +6,8 @@ import { routes } from './routes';
 
 const app = new Koa();
 
+console.log(config.port);
+
 app.use(logger);
 app.use(routes);
 
