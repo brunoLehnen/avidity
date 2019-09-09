@@ -4,31 +4,23 @@ import { promisify } from 'util';
 const client: RedisClient = createClient(6379);
 
 export function set(key: string, val: any): Promise<void> {
-  return promisify(this.client.set)
-    .apply(this.client, [key, val]);
+  return promisify(client.set).apply(client, [key, val]);
 }
 
 export function get(key: string): Promise<any> {
-  return promisify(this.client.get)
-    .call(this.client, key);
+  return promisify(client.get).call(client, key);
 }
 
-export function hSet(key: string, val: any): Promise<void> {
-  return promisify(this.client.hset)
-    .apply(this.client, [key, val]);
+export function mget(...keys: (string|number)[]): Promise<any[]> {
+  return promisify(client.mget).call(client, keys);
 }
 
-export function hGet(key: string): Promise<void> {
-  return promisify(this.client.hget)
-  .call(this.client, key);
-}
+export async function getOrSet(key: string, setFn: () => Promise<string>): Promise<any> {
+  const originalData: any = await get(key);
 
-export function sAdd(key: string, val: any): Promise<void> {
-  return promisify(this.client.sadd)
-    .apply(this.client, [key, val]);
-}
+  if (originalData) return originalData;
 
-export function sMembers(key: string): Promise<void> {
-  return promisify(this.client.smembers)
-    .call(this.client, key);
+  const newData: any = await setFn();
+  set(key, newData);
+  return newData;
 }

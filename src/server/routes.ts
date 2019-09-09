@@ -1,18 +1,8 @@
-
 import * as Router from 'koa-router';
-import { getCharacters } from '../services/http-service';
+import { getCharacter } from '../middlewares/marvel-middleware';
 
-const router = new Router();
+const router: Router = new Router();
 
-router.get('/', async (ctx) => {
-    ctx.body = 'Hello World!';
-});
-
-router.get('/test', async (ctx) => {
-    ctx.status = 201;
-    ctx.body = 'test';
-});
-
-router.get('/marvel', getCharacters);
+router.get('/character', getCharacter);
 
 export const routes = router.routes();
