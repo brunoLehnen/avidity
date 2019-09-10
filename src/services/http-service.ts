@@ -1,9 +1,8 @@
-import { createHash } from 'crypto';
 import axios, { AxiosInstance } from 'axios';
+import { createHash } from 'crypto';
 
-const PUBLIC_KEY: string = '043c990b10d5fbc8e9f82eb64e3c326f';
-const PRIVATE_KEY: string = '0b3c2bcf5316bba1619a9430763e7bb3393199cf';
 const BASE_URL: string = 'https://gateway.marvel.com/v1/public';
+const { MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY } = process.env;
 const baseReq: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 20000,
@@ -11,17 +10,17 @@ const baseReq: AxiosInstance = axios.create({
 
 function getDefaultParams() {
   const ts: number = new Date().getTime();
-  return { 
+  return {
     ts,
-    apikey: PUBLIC_KEY,
-    hash: createHash('md5').update(ts + PRIVATE_KEY + PUBLIC_KEY).digest('hex')
+    apikey: MARVEL_PUBLIC_KEY,
+    hash: createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex'),
   };
 }
 
 export async function get(url: string, cParams: any = {}): Promise<any> {
-  const params = { 
+  const params = {
     ...getDefaultParams(),
-    ...cParams
+    ...cParams,
   };
 
   return baseReq({ method: 'get', url,  params });

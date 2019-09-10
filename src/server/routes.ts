@@ -1,8 +1,8 @@
 import * as Router from 'koa-router';
-import { getCharacter } from '../middlewares/marvel-middleware';
+import { getCharacterWithSampleStory } from '../middlewares/marvel-middleware';
 
 const router: Router = new Router();
 
-router.get('/character', getCharacter);
+router.get('/sampleStory', getCharacterWithSampleStory);
 
 export const routes = router.routes();

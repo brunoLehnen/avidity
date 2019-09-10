@@ -1,24 +1,24 @@
 export type Url = {
     type: string,
     url: string
-};
+}
 
 export type Image = {
     path: string,
     extension: string
-};
+}
 
 export type ComicSummary = {
     resourceURI: string,
     name: string
-};
+}
 
 export type ComicList = {
     available: number,
     returned: number,
     collectionURI: string,
     items: ComicSummary[]
-};
+}
 
 export type CharacterList = {
     available: number,
@@ -42,6 +42,7 @@ export type Story = {
     modified: Date,
     thumbnail: Image,
     characters: CharacterList,
+    attributionText: string
 }
 
 export type StorySummary = {
@@ -63,11 +64,18 @@ export type Character = {
     description: string,
     modified: Date,
     resourceURI: string,
-    urls?: Url[],
+    urls: Url[],
     thumbnail: Image,
-    comics?: ComicList
-};
+    comics: ComicList,
+    stories: StoryList,
+    attributionText: string
+}
 
+export type CharacterWithSampleStory = {
+    mainCharacter: Character,
+    story: Story,
+    characters: Character[]
+}
 
 export type Response = {
     code: number,
@@ -83,5 +91,5 @@ export type ResponseData = {
     limit: number,
     total: number,
     count: number,
-    results: any
+    results: any[]
 }

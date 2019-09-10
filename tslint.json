@@ -10,6 +10,9 @@
       ]
     },
     "rules": {
+        "interface-over-type-literal": [
+            false
+        ],
         "quotemark": [
             true,
             "single"
