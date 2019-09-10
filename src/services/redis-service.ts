@@ -22,7 +22,7 @@ export async function getOrSet(key: string, setFn: () => Promise<any>, expire: n
   const originalData = await get(key);
 
   if (originalData) {
-    return originalData;
+     return originalData;
   }
 
   const newData = await setFn();

@@ -1,37 +1,37 @@
 export type Url = {
     type: string,
-    url: string
-}
+    url: string,
+};
 
 export type Image = {
     path: string,
-    extension: string
-}
+    extension: string,
+};
 
 export type ComicSummary = {
     resourceURI: string,
-    name: string
-}
+    name: string,
+};
 
 export type ComicList = {
     available: number,
     returned: number,
     collectionURI: string,
-    items: ComicSummary[]
-}
+    items: ComicSummary[],
+};
 
 export type CharacterList = {
     available: number,
     returned: number,
     collectionURI: string,
-    items: CharacterSummary[]
-}
+    items: CharacterSummary[],
+};
 
 export type CharacterSummary = {
     resourceURI: string,
     name: string,
     role: string
-}
+};
 
 export type Story = {
     id: number,
@@ -42,21 +42,21 @@ export type Story = {
     modified: Date,
     thumbnail: Image,
     characters: CharacterList,
-    attributionText: string
-}
+    attributionText: string,
+};
 
 export type StorySummary = {
     resourceURI: string,
     name: string,
-    type: string
-}
+    type: string,
+};
 
 export type StoryList = {
     available: number,
     returned: number,
     collectionURI: number,
-    items: StorySummary[]
-}
+    items: StorySummary[],
+};
 
 export type Character = {
     id: number,
@@ -68,14 +68,14 @@ export type Character = {
     thumbnail: Image,
     comics: ComicList,
     stories: StoryList,
-    attributionText: string
-}
+    attributionText: string,
+};
 
 export type CharacterWithSampleStory = {
     mainCharacter: Character,
     story: Story,
-    characters: Character[]
-}
+    characters: Character[],
+};
 
 export type Response = {
     code: number,
@@ -83,13 +83,13 @@ export type Response = {
     copyright: string,
     attributionText: string,
     attributionHTML: string,
-    data: ResponseData, 
-}
+    data: ResponseData,
+};
 
 export type ResponseData = {
     offset: number,
     limit: number,
     total: number,
     count: number,
-    results: any[]
-}
+    results: any[],
+};

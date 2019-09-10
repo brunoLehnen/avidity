@@ -15,6 +15,12 @@ body {
 
 }
 
+.marvel-text {
+  position: absolute;
+  right: 60px;
+  top: 10px;
+}
+
 .character-content {
     margin-left: 10px;
     display:flex;
@@ -23,7 +29,6 @@ body {
     justify-content: space-between;
     font-size: 20px;
 }
-
 
 .character-content .character-title {
     font-size: 28px;
