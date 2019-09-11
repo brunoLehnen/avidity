@@ -17,12 +17,10 @@ async function pickRandomStoryByCharacter(characterID: number, seriesID: number)
 async function findCharacterByID(characterID: number): Promise<Character> {
   return JSON.parse(await getOrSet(`character-${characterID}`, async () => {
     const response: Response = (await getRequest(`/characters/${characterID}`)).data;
-    const character: Character = {
+    return JSON.stringify({
       ...response.data.results.pop(),
       attributionText: response.attributionText,
-    };
-
-    return JSON.stringify(character);
+    });
   }, 604800));
 }
 
@@ -34,8 +32,7 @@ async function findStories(filters: any): Promise<Story[]> {
 async function findCharactersByStory(story: Story): Promise<Character[]> {
   const ids: number[] = story.characters.items
     .map((character: CharacterSummary) => idFromResource(character.resourceURI));
-  const getCharacterKeys = () => ids.map((id) => `character-${id}`);
-  const cachedCharacters: Character[] = (await mget(...getCharacterKeys()))
+  const cachedCharacters: Character[] = (await mget(...ids.map((id) => `character-${id}`)))
     .filter((item) => !!item)
     .map((c) => JSON.parse(c));
   const uncachedIDs: number[] = ids.filter((id) => !cachedCharacters.map((item) => item.id).includes(id));
