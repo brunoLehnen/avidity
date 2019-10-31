@@ -17,4 +17,3 @@ export async function render(ctx: Context, next: () => any) {
 
     await next();
 }
-
