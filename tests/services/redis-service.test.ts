@@ -58,6 +58,7 @@ describe('Redis Service', () => {
   afterEach(() => {
     resetRedisMockObject();
   });
+
   test('create client and listen to the correct port', () => {
     expect(createClient).toHaveBeenCalledWith(PORT);
   });
