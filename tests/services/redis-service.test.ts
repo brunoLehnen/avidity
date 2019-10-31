@@ -53,6 +53,8 @@ function mockRedis(): IMockedObject {
 jest.mock('redis', mockRedis);
 
 describe('Redis Service', () => {
+  const client = createClient(6379);
+
   afterEach(() => {
     resetRedisMockObject();
   });
@@ -61,15 +63,20 @@ describe('Redis Service', () => {
   });
 
   test('set wrapper should return promise', () => {
-    const client = createClient(6379);
     const baseArgs = ['test', 'test', 12];
     const setPromise = RedisService.set.apply(null, baseArgs);
     expect(client.set).toHaveBeenCalledWith('test', 'test', 'EX', 12, expect.anything());
     expect(setPromise).resolves.toStrictEqual({ test: 'test' });
   });
 
+  test('set wrapper should not set expiration time if no exp. argument is passed', () => {
+    const baseArgs = ['test', 'test'];
+    const setPromise = RedisService.set.apply(null, baseArgs);
+    expect(client.set).toHaveBeenCalledWith('test', 'test', expect.anything());
+    expect(setPromise).resolves.toStrictEqual({ test: 'test' });
+  });
+
   test('get wrapper should resolve to value if key exists', () => {
-    const client = createClient(6379);
     const key = 'test';
     const getPromise = RedisService.get(key);
     expect(client.get).toHaveBeenCalledWith(key, expect.anything());
@@ -77,7 +84,6 @@ describe('Redis Service', () => {
   });
 
   test('get wrapper should resolve to null if key does not exists', () => {
-    const client = createClient(6379);
     const key = 'nonExistingKey';
     const getPromise = RedisService.get(key);
     expect(client.get).toHaveBeenCalledWith(key, expect.anything());
@@ -85,7 +91,6 @@ describe('Redis Service', () => {
   });
 
   test('mget wrapper should resolve to values if key exists', () => {
-    const client = createClient(6379);
     const keys = ['test', 'test2'];
     const mgetPromise = RedisService.mget(...keys);
     expect(client.mget).toHaveBeenCalledWith(keys, expect.anything());
@@ -93,7 +98,6 @@ describe('Redis Service', () => {
   });
 
   test('mget wrapper should resolve to empty array if key does not exist', () => {
-    const client = createClient(6379);
     const keys = ['nonExisting0', 'nonExisting1'];
     const mgetPromise = RedisService.mget(...keys);
     expect(client.mget).toHaveBeenCalledWith(keys, expect.anything());
@@ -101,7 +105,6 @@ describe('Redis Service', () => {
   });
 
   test('getOrSet should resolve to value if key exists without calling set', async () => {
-    const client = createClient(6379);
     const cb = jest.fn(() => Promise.resolve('value'));
     const key = 'test';
     const getOrSetPromise = await RedisService.getOrSet(key, cb, 12);
@@ -111,7 +114,6 @@ describe('Redis Service', () => {
   });
 
   test('getOrSet should set key if does not exist and resolve to value', async () => {
-    const client = createClient(6379);
     const newValue = 'newValue';
     const cb = jest.fn(() => Promise.resolve(newValue));
     const key = 'nonExistingKey';
@@ -119,5 +121,13 @@ describe('Redis Service', () => {
     expect(client.set).toHaveBeenCalledWith(key, newValue, 'EX', 12, expect.anything());
     expect(client.get).toHaveBeenCalledWith(key, expect.anything());
     expect(getOrSetPromise).toBe(newValue);
+  });
+
+  test('getOrSet should not set expire time if no argument is passed', async () => {
+    const newValue = 'newValue';
+    const cb = jest.fn(() => Promise.resolve(newValue));
+    const key = 'nonExistingKey';
+    await RedisService.getOrSet(key, cb);
+    expect(client.set).toHaveBeenCalledWith(key, newValue, expect.anything());
   });
 });
