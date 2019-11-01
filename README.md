@@ -1,4 +1,4 @@
-# Avidity Test Project 
+# Marvel API TS Client
 
 Requirements:
  * Node v10
