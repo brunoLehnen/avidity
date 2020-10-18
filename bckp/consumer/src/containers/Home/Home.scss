@@ -1,0 +1,30 @@
+.home {
+  display: flex;
+  justify-content: center;
+
+  &__content {
+    max-width: 1000px;
+    min-width: 500px;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column;
+    background-color: #f0f2f5;
+    border: solid 1px #eee;
+    min-height: 500px !important;
+    text-align: center;
+
+    .ant-input-search-button {
+      background: #fe615a;
+      border: solid 1px #fe615a;
+    }
+
+    @media only screen and (min-height: 800px) {
+      margin-top: 40px;
+    }
+
+    @media only screen and (min-height: 1000px) {
+      min-height: 600px !important;
+      margin-top: 10%;
+    }
+  }
+}

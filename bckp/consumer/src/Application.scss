@@ -1,0 +1,39 @@
+@import "../assets/fonts/fonts.css";
+@import "antd/dist/antd.css";
+
+.code-box-demo {
+  text-align: center;
+}
+
+.ant-layout {
+  background: #fff !important;
+}
+
+.ant-layout-header,
+.ant-layout-footer {
+  color: #fff;
+}
+
+.ant-layout-footer {
+  line-height: 1.5;
+}
+.ant-layout-sider {
+  color: #fff;
+  line-height: 120px;
+}
+
+.ant-layout-content {
+  color: #fff;
+  min-height: 120px;
+  line-height: 120px;
+  padding: 50px;
+}
+
+> .code-box-demo > .ant-layout + .ant-layout {
+  margin-top: 48px;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+}

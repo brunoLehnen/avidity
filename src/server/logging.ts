@@ -1,8 +1,6 @@
-
-import * as Koa from 'koa';
 import { config } from './config';
 
-interface ILogData {
+interface LogData {
     method: string;
     url: string;
     query: string;
@@ -16,44 +14,55 @@ interface ILogData {
     responseTime: number;
 }
 
-function outputLog(data: Partial<ILogData>, thrownError: any) {
+
+function outputLog(data: Partial<LogData>, thrownError: any) {
     if (config.prettyLog) {
-        console.log(`${data.statusCode} ${data.method} ${data.url} - ${data.responseTime}ms`);
-        if (thrownError) {
-            console.error(thrownError);
-        }
-    }
-    else if (data.statusCode < 400) {
+      console.log(`${data.statusCode} ${data.method} ${data.url} - ${data.responseTime}ms`);
+
+      if (thrownError) {
+          console.error(thrownError);
+      }
+    } else if (data.statusCode && data.statusCode < 400) {
         process.stdout.write(JSON.stringify(data) + '\n');
-    }
-    else {
+    } else {
         process.stderr.write(JSON.stringify(data) + '\n');
     }
 }
 
-export async function logger(ctx: Koa.Context, next: () => Promise<any>) {
+interface LogContext {
+  status: number;
+  method: string;
+  url: string;
+  querystring: string;
+  request: {
+    ip: string;
+  };
+  headers: Record<string, string>;
+}
 
+
+export async function logger(ctx: LogContext, next: () => Promise<any>) {
     const start = new Date().getMilliseconds();
-
-    const logData: Partial<ILogData> = {
+    const logData: Partial<LogData> = {
         method: ctx.method,
         url: ctx.url,
-        query: ctx.query,
+        query: ctx.querystring,
         remoteAddress: ctx.request.ip,
         host: ctx.headers['host'],
         userAgent: ctx.headers['user-agent'],
     };
 
-    let errorThrown: any = null;
+    let errorThrown: Error | null = null;
+
     try {
         await next();
         logData.statusCode = ctx.status;
-    }
-    catch (e) {
+    } catch (e) {
         errorThrown = e;
         logData.errorMessage = e.message;
         logData.errorStack = e.stack;
         logData.statusCode = e.status || 500;
+
         if (e.data) {
             logData.data = e.data;
         }

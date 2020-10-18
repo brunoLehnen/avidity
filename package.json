@@ -1,52 +1,58 @@
 {
-  "name": "avidity-test-application",
-  "version": "1.0.0",
+  "name": "backend",
+  "version": "0.1.0",
   "main": "dist/index.js",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "scripts": {
-    "boot-dev-environment": "docker-compose up --detach",
-    "build-server": "tslint --project . && tsc",
-    "watch-server": "cross-env NODE_ENV=development MARVEL_PUBLIC_KEY=043c990b10d5fbc8e9f82eb64e3c326f MARVEL_PRIVATE_KEY=0b3c2bcf5316bba1619a9430763e7bb3393199cf nodemon --watch src -e ts,tsx --exec ts-node src/server/server.ts",
-    "test": "jest"
+    "build": "eslint . && tsc --build",
+    "start": "NODE_ENV=production docker-compose up --detach && yarn build && node dist/index.js",
+    "watch": "cross-env NODE_ENV=development nodemon --watch src -e ts,tsx --exec ts-node src/server/server.ts",
+    "test": "cross-env NODE_ENV=test docker-compose up --detach && jest --setupFiles dotenv/config"
   },
   "devDependencies": {
     "@shopify/jest-koa-mocks": "2.1.7",
+    "@tsconfig/recommended": "1.0.1",
     "@types/jest": "24.0.20",
-    "@types/koa": "latest",
-    "@types/koa-router": "latest",
+    "@types/koa": "2.11.5",
+    "@types/koa-mount": "4.0.0",
+    "@types/koa-router": "7.4.1",
+    "@types/redis": "2.8.28",
+    "@typescript-eslint/eslint-plugin": "4.4.1",
+    "@typescript-eslint/parser": "4.4.1",
     "cross-env": "5.0.5",
-    "jest": "24.9.0",
+    "eslint": "7.11.0",
+    "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-import": "2.22.1",
+    "jest": "26.5.3",
     "nodemon": "1.19.2",
-    "ts-jest": "24.1.0",
+    "prettier": "2.1.2",
+    "supertest": "5.0.0",
+    "ts-jest": "26.4.1",
     "ts-node": "3.3.0",
-    "tslint": "5.7.0",
-    "typescript": "3.6.4"
+    "typescript": "4.0.3"
   },
   "dependencies": {
-    "@types/koa-mount": "4.0.0",
-    "@types/pug": "2.0.4",
-    "@types/redis": "2.8.13",
     "axios": "0.19.0",
-    "koa": "2.8.1",
-    "koa-mount": "4.0.0",
-    "koa-router": "7.2.1",
-    "pug": "2.0.4",
-    "redis": "2.8.0",
-    "supertest": "4.0.2"
+    "dotenv": "8.2.0",
+    "koa": "2.13.0",
+    "koa-mounter": "0.0.4",
+    "koa-router": "9.4.0",
+    "node-itunes-search": "1.2.2",
+    "redis": "3.0.2"
   },
   "jest": {
     "moduleFileExtensions": [
       "js",
-      "jsx",
       "json",
       "ts",
       "tsx"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.{ts,js}",
+      "**/*.{ts}",
       "!**/node_modules/**",
       "!**/build/**",
+      "!**/diest/**",
       "!**/coverage/**"
     ],
     "transform": {
@@ -68,6 +74,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/build/",
+      "/dist/",
       "/coverage/"
     ]
   }

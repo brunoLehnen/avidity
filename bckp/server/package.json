@@ -1,0 +1,72 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "NODE_ENV=production yarn lint && tsc --build",
+    "lint": "eslint .",
+    "server:start": "NODE_ENV=production docker-compose up --detach && yarn build && node dist/index.js",
+    "server:watch": "cross-env NODE_ENV=development docker-compose up --detach && nodemon --watch src -e ts,tsx --exec ts-node src/server/server.ts",
+    "test": "cross-env NODE_ENV=test docker-compose -f docker-compose.test.yml up --detach && REDIS_PORT=6380 jest"
+  },
+  "devDependencies": {
+    "@shopify/jest-koa-mocks": "2.1.7",
+    "@tsconfig/recommended": "1.0.1",
+    "@types/jest": "^26.0.14",
+    "@types/koa": "2.11.5",
+    "@types/koa-mount": "4.0.0",
+    "@types/koa-router": "7.4.1",
+    "@types/koa__cors": "^3.0.2",
+    "@types/redis": "2.8.28",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "4.4.1",
+    "@typescript-eslint/parser": "4.4.1",
+    "api_types": "0.1.0",
+    "cross-env": "5.0.5",
+    "eslint": "7.11.0",
+    "eslint-plugin-import": "2.22.1",
+    "jest": "26.5.3",
+    "nodemon": "1.19.2",
+    "supertest": "5.0.0",
+    "ts-jest": "26.4.1",
+    "ts-node": "3.3.0",
+    "typescript": "4.0.3"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "dotenv": "8.2.0",
+    "koa": "2.13.0",
+    "koa-mounter": "0.0.4",
+    "koa-router": "9.4.0",
+    "node-itunes-search": "1.2.2",
+    "redis": "3.0.2",
+    "rss-parser": "^3.9.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{ts}",
+      "!**/node_modules/**",
+      "!**/build/**",
+      "!**/diest/**",
+      "!**/coverage/**"
+    ],
+    "transform": {
+      "\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)x?$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/",
+      "/dist/",
+      "/coverage/"
+    ]
+  }
+}

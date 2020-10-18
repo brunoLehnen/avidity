@@ -1,0 +1,15 @@
+.search-box {
+  &__title {
+    font-size: 3em;
+    color: #001529;
+    font-family: "Sofia Pro";
+
+    @media only screen and (min-width: 1900px) {
+      font-size: 3.5em;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 2.5em;
+    }
+  }
+}

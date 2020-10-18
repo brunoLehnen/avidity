@@ -1,0 +1,75 @@
+.podcast-box {
+  text-align: left;
+  &__title {
+   line-height: 50px;
+   font-size: 2em;
+    color: #001529;
+    font-family: "Sofia Pro";
+
+    @media only screen and (min-width: 1900px) {
+      font-size: 2.5em;
+    }
+
+    @media only screen and (max-width: 991px) {
+      font-size: 1.5em;
+    }
+  }
+
+  &__summary {
+    text-align: justify;
+    line-height: 23px;
+    max-width: 60%;
+    color: #444;
+    margin-top: 19px;
+    font-size: 1em;
+
+    @media only screen and (min-width: 1900px) {
+      font-size: 1.2em;
+      max-width: 50%;
+    }
+
+    @media only screen and (max-width: 991px) {
+    }
+  }
+
+  &__menu {
+    text-align: left;
+    &__genre {
+      padding: 7px;
+      border-right: 1px solid #ccc;
+    }
+
+    &__genre:first-of-type {
+      padding-left: 0px;
+    }
+
+    &__more-details {
+      color: #81a3d6;
+      cursor: pointer;
+      padding: 7px;
+    }
+
+    font-family: "Sofia Pro";
+    line-height: 23px;
+    max-width: 50%;
+    color: #000;
+    margin-top: 19px;
+  }
+
+
+  &__subTitle {
+   line-height: 10px;
+   font-size: 1.5em;
+    color: #444;
+    font-family: "Sofia Pro";
+    margin-bottom: 15px;
+
+    @media only screen and (min-width: 1900px) {
+      font-size: 2em;
+    }
+
+    @media only screen and (max-width: 991px) {
+      font-size: 1.2em;
+    }
+  }
+}

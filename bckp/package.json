@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "workspaces": [
+    "api_types",
+    "consumer",
+    "server",
+    "integration_tests"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["graphql/generated/**", "dist/**", "node_modules/**"],
+  "plugins": ["@typescript-eslint", "import"],
+  "rules": {
+    "import/no-default-export": 1,
+    "@typescript-eslint/no-empty-interface": 0,
+    "object-curly-spacing": ["error", "always"],
+    "quotes": ["error", "single"]
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ]
+}

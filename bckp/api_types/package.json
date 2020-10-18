@@ -1,0 +1,13 @@
+{
+  "name": "api_types",
+  "version": "0.1.0",
+  "license": "MIT",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "typescript": "4.0.3"
+  }
+}

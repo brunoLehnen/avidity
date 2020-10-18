@@ -1,0 +1,12 @@
+.header {
+  font-family: "Sofia Pro";
+
+  &__company_name {
+    font-size: 2em;
+    margin-right: 3px;
+  }
+
+  &__product_name {
+    color: #fe615a;
+  }
+}

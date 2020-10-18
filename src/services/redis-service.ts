@@ -1,24 +1,23 @@
 import { createClient, RedisClient } from 'redis';
 import { promisify } from 'util';
 
-const client: RedisClient = createClient(6379);
+const PORT = (process.env.REDIS_PORT !== undefined) ? parseInt(process.env.REDIS_PORT, 10) : 6379;
 
-export function set(key: string, val: any, expire: number = null): Promise<void> {
-  const baseArgs = [key, val];
-  const args = (expire !== null) ? [...baseArgs, 'EX', expire] : baseArgs;
+export const client: RedisClient = createClient(PORT);
 
-  return promisify(client.set).apply(client, args);
+export async function set(key: string, val: string, expire: number | null = null): Promise<boolean> {
+  if (expire !== null) {
+    return !!(await promisify(client.setex).call(client, key, expire, val));
+  }
+
+  return !!(await promisify(client.set).call(client, key, val));
 }
 
-export function get(key: string): Promise<any> {
+export function get(key: string): Promise<string | null> {
   return promisify(client.get).call(client, key);
 }
 
-export function mget(...keys: any[]): Promise<any[]> {
-  return promisify(client.mget).call(client, keys);
-}
-
-export async function getOrSet(key: string, setFn: () => Promise<any>, expire: number = null): Promise<any> {
+export async function getOrSet(key: string, setFn: () => Promise<string | null>, expire: number | null = null): Promise<string | null> {
   const originalData = await get(key);
 
   if (originalData) {
@@ -26,6 +25,10 @@ export async function getOrSet(key: string, setFn: () => Promise<any>, expire: n
   }
 
   const newData = await setFn();
-  set(key, newData, expire);
-  return newData;
+
+  if (newData) {
+    set(key, newData, expire);
+  }
+  
+  return newData || null;
 }
